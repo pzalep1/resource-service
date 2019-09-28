@@ -1,3 +1,4 @@
+import * as bodyParser from "body-parser";
 import express from "express";
 import * as http from "http";
 import ExpressRouteDriver from "./ExpressRouteDriver";
@@ -8,6 +9,12 @@ export class ExpressDriver {
 
     // tslint:disable-next-line: member-access
     static start() {
+        this.app.use(
+            bodyParser.urlencoded({
+              extended: true,
+            }),
+          );
+        this.app.use(bodyParser.json());
         // Set our api routes
         this.app.use("/", ExpressRouteDriver.buildRouter());
 

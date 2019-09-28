@@ -27,17 +27,25 @@ export class ResourceStore {
     async setResource(obj: any) {
         const object = {
             _id: new ObjectId().toHexString(),
-            name: "name",
-            resource: "towson.edu",
+            name: obj.name,
+            resource: obj.resource,
         };
         await this.db.collection("uris")
         .insertOne(object);
     }
 
-    // tslint:disable-next-lin: member access
-    public async getResourceCount() {
+    // tslint:disable-next-line: member-access
+    async getResourceCount() {
         const count = await this.db.collection("uris")
         .countDocuments();
         return count;
     }
+
+    // tslint:disable-next-line: member-access
+    async getResources() {
+        const resources = this.db.collection("uris")
+        .find({}).toArray();
+        return resources;
+    }
+
 }

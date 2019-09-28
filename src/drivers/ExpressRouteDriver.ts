@@ -1,7 +1,6 @@
 import * as express from "express";
 import { Router } from "express";
-import { getResourceCount, setResource } from "../resources/resourceInteractor";
-import { Resource } from "../resources/resourceStore";
+import { getResourceCount, getResources, setResource } from "../resources/resourceInteractor";
 
 export default class ExpressRouteDriver {
 
@@ -21,18 +20,22 @@ export default class ExpressRouteDriver {
             message: "Welcome to the Resource API",
           });
         });
-        // retrieves all resources from mongo
+        // retrieves the total number of resources in the uris collection
         router.get("/resources/count", async (req, res) => {
             const response = await getResourceCount();
-            // tslint:disable-next-line: no-console
-            console.log("response", response);
             res.send(response.toString());
+        });
+        // retrieves all resources from mongo
+        router.get("/resources", async (req, res) => {
+          const resources = await getResources();
+          res.send(resources);
         });
         // posts resources to mongo
         router.post("/resources", async (req, res) => {
-          const resource = req.body;
+          const resource = req.body.resource;
           await setResource(resource);
           res.sendStatus(200);
         });
+
     }
 }
