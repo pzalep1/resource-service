@@ -35,8 +35,9 @@ export class ResourceStore {
     }
 
     // tslint:disable-next-lin: member access
-    public async getAllResources() {
-        await this.db.collection("uris")
-        .find();
+    public async getResourceCount() {
+        const count = await this.db.collection("uris")
+        .countDocuments();
+        return count;
     }
 }

@@ -1,6 +1,6 @@
 import * as express from "express";
 import { Router } from "express";
-import { setResource } from "../resources/resourceInteractor";
+import { getResourceCount, setResource } from "../resources/resourceInteractor";
 import { Resource } from "../resources/resourceStore";
 
 export default class ExpressRouteDriver {
@@ -22,16 +22,15 @@ export default class ExpressRouteDriver {
           });
         });
         // retrieves all resources from mongo
-        router.get("/resources", (req, res) => {
-          res.json({
-            message: "All Resources",
-          });
+        router.get("/resources/count", async (req, res) => {
+            const response = await getResourceCount();
+            // tslint:disable-next-line: no-console
+            console.log("response", response);
+            res.send(response.toString());
         });
         // posts resources to mongo
         router.post("/resources", async (req, res) => {
           const resource = req.body;
-          // tslint:disable-next-line: no-console
-          console.log(resource);
           await setResource(resource);
           res.sendStatus(200);
         });

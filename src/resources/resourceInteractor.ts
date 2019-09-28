@@ -3,8 +3,8 @@ export async function setResource(obj: any) {
     return await getDataStore().setResource(obj);
 }
 
-export async function getAllResources() {
-    return await getDataStore().getAllResources();
+export async function getResourceCount() {
+    return await getDataStore().getResourceCount();
 }
 
 function getDataStore() {
